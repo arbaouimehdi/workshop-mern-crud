@@ -1,3 +1,8 @@
+// Accessing Environment Variables
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`
+});
+
 const { prisma } = require("./client");
 const { GraphQLServer } = require("graphql-yoga");
 
@@ -57,7 +62,7 @@ const resolvers = {
 };
 
 const options = {
-  port: 7777,
+  port: process.env.PORT,
   endpoint: "/graphql",
   subscriptions: "/subscriptions",
   playground: "/playground"

@@ -5,12 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": ""
+    "dev": "NODE_ENV=development node index.js"
   },
   "author": "Arbaoui Mehdi",
   "license": "ISC",
   "dependencies": {
     "graphql-yoga": "^1.18.3",
     "prisma-client-lib": "^1.34.10"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0"
   }
 }
