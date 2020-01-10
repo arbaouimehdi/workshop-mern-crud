@@ -1,10 +1,78 @@
 const { prisma } = require("./client");
+const { GraphQLServer } = require("graphql-yoga");
 
-// A `main` function so that we can use async/await
-async function main() {
-  // Read the previously created user from the database and print their posts to the console
-  const postsByUser = await prisma.user({ email: "bob@prisma.io" }).posts();
-  console.log(`All posts by that user: ${JSON.stringify(postsByUser)}`);
-}
+const resolvers = {
+  Query: {
+    publishedPosts(root, args, context) {
+      return context.prisma.posts({ where: { published: true } });
+    },
+    post(root, args, context) {
+      return context.prisma.post({ id: args.postId });
+    },
+    postsByUser(root, args, context) {
+      return context.prisma
+        .user({
+          id: args.userId
+        })
+        .posts();
+    }
+  },
+  Mutation: {
+    createDraft(root, args, context) {
+      return context.prisma.createPost({
+        title: args.title,
+        author: {
+          connect: { id: args.userId }
+        }
+      });
+    },
+    publish(root, args, context) {
+      return context.prisma.updatePost({
+        where: { id: args.postId },
+        data: { published: true }
+      });
+    },
+    createUser(root, args, context) {
+      return context.prisma.createUser({ name: args.name });
+    }
+  },
+  User: {
+    posts(root, args, context) {
+      return context.prisma
+        .user({
+          id: root.id
+        })
+        .posts();
+    }
+  },
+  Post: {
+    author(root, args, context) {
+      return context.prisma
+        .post({
+          id: root.id
+        })
+        .author();
+    }
+  }
+};
 
-main().catch(e => console.error(e));
+const options = {
+  port: 7777,
+  endpoint: "/graphql",
+  subscriptions: "/subscriptions",
+  playground: "/playground"
+};
+
+const server = new GraphQLServer({
+  typeDefs: "./schema.graphql",
+  resolvers,
+  context: {
+    prisma
+  }
+});
+
+server.start(options, ({ port }) =>
+  console.log(
+    `Server started, listening on port ${port} for incoming requests.`
+  )
+);
