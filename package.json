@@ -1,0 +1,18 @@
+{
+  "name": "immo-neuf",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"lerna run dev --scope api --scope backend --scope frontend\" \"micro-proxy -r rules-dev.json\"",
+    "dev:api": "lerna run dev --scope api",
+    "dev:backend": "lerna run dev --scope backend",
+    "dev:frontend": "lerna run dev --scope frontend"
+  },
+  "devDependencies": {
+    "lerna": "^3.20.2",
+    "concurrently": "^5.0.2",
+    "micro-proxy": "^1.1.0"
+  },
+  "engines": {
+    "yarn": "^1.16.0"
+  }
+}
