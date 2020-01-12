@@ -1,83 +1,87 @@
 // Accessing Environment Variables
 require("dotenv").config({
-  path: `.env.${process.env.NODE_ENV}`
-});
+  path: `.env.${process.env.NODE_ENV}`,
+})
 
-const { prisma } = require("./client");
-const { GraphQLServer } = require("graphql-yoga");
+const { prisma } = require("./client")
+const { GraphQLServer } = require("graphql-yoga")
 
 const resolvers = {
   Query: {
     publishedPosts(root, args, context) {
-      return context.prisma.posts({ where: { published: true } });
+      return context.prisma.posts({ where: { published: true } })
     },
     post(root, args, context) {
-      return context.prisma.post({ id: args.postId });
+      return context.prisma.post({ id: args.postId })
     },
     postsByUser(root, args, context) {
       return context.prisma
         .user({
-          id: args.userId
+          id: args.userId,
         })
-        .posts();
-    }
+        .posts()
+    },
   },
   Mutation: {
     createDraft(root, args, context) {
       return context.prisma.createPost({
         title: args.title,
         author: {
-          connect: { id: args.userId }
-        }
-      });
+          connect: { id: args.userId },
+        },
+      })
     },
     publish(root, args, context) {
       return context.prisma.updatePost({
         where: { id: args.postId },
-        data: { published: true }
-      });
+        data: { published: true },
+      })
     },
     createUser(root, args, context) {
-      return context.prisma.createUser({ name: args.name });
-    }
+      return context.prisma.createUser({ name: args.name })
+    },
   },
   User: {
     posts(root, args, context) {
       return context.prisma
         .user({
-          id: root.id
+          id: root.id,
         })
-        .posts();
-    }
+        .posts()
+    },
   },
   Post: {
     author(root, args, context) {
       return context.prisma
         .post({
-          id: root.id
+          id: root.id,
         })
-        .author();
-    }
-  }
-};
+        .author()
+    },
+  },
+}
 
 const options = {
   port: process.env.PORT,
   endpoint: "/graphql",
   subscriptions: "/subscriptions",
-  playground: "/playground"
-};
+  playground: "/playground",
+  cors: {
+    credentials: true,
+    origin: ["http://localhost:3000"], // your frontend url.
+  },
+}
 
 const server = new GraphQLServer({
   typeDefs: "./schema.graphql",
   resolvers,
   context: {
-    prisma
-  }
-});
+    prisma,
+  },
+})
 
 server.start(options, ({ port }) =>
   console.log(
-    `Server started, listening on port ${port} for incoming requests.`
-  )
-);
+    `Server started, listening on port ${port} for incoming requests.`,
+  ),
+)
