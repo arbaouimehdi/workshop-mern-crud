@@ -2,9 +2,9 @@
   "name": "immo-neuf",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"lerna run dev --scope api --scope backend --scope frontend\" \"micro-proxy -r rules-dev.json\"",
+    "dev": "concurrently \"lerna run dev --scope api --scope admin --scope frontend\" \"micro-proxy -r rules-dev.json\"",
     "dev:api": "lerna run dev --scope api",
-    "dev:backend": "lerna run dev --scope backend",
+    "dev:admin": "lerna run dev --scope admin",
     "dev:frontend": "lerna run dev --scope frontend"
   },
   "devDependencies": {
