@@ -8,13 +8,15 @@ const { GraphQLServer } = require("graphql-yoga");
 
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
-const cors = require("cors");
 
 // Resolvers
 const Mutation = require("./resolvers/Mutation");
 const Query = require("./resolvers/Query");
 const Post = require("./resolvers/Post");
 const User = require("./resolvers/User");
+
+// Secret
+const { APP_SECRET } = process.env;
 
 const resolvers = {
   Query,
