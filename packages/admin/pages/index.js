@@ -1,21 +1,21 @@
 import { useQuery } from "@apollo/react-hooks";
-import Posts from "../queries/posts";
+import SigninBox from "../components/signin-box";
+// import SignOutButton from "../components/SignOutButton"
+import ME from "../queries/me";
 
-const HomePage = () => {
-  const { loading, error, data } = useQuery(Posts);
+const NewHome = () => {
+  const { loading, error, data } = useQuery(ME);
+
+  console.log(data);
 
   if (error) console.log("error message is: ", error.message);
   if (loading) return <p>loading</p>;
 
   if (data === undefined || data.me === undefined || data.me === null) {
-    const { publishedPosts } = data;
-
     return (
       <>
-        <h1>Admin</h1>
-        {publishedPosts.map((post, id) => {
-          return <div key={id}>{post.title}</div>;
-        })}
+        <p>You are not signed in!</p>
+        <SigninBox />
       </>
     );
   } else {
@@ -28,4 +28,4 @@ const HomePage = () => {
   }
 };
 
-export default HomePage;
+export default NewHome;

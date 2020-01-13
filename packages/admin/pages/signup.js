@@ -4,7 +4,7 @@ import gql from "graphql-tag";
 import Router from "next/router";
 
 // Queries
-import Me from "../queries/me";
+import ME from "../queries/me";
 
 const SIGN_UP = gql`
   mutation SIGN_UP(
@@ -38,7 +38,7 @@ const Signup = () => {
       onError={error => {
         console.log(error);
       }}
-      refetchQueries={[{ query: Me }]}
+      refetchQueries={[{ query: ME }]}
       onCompleted={() => {
         Router.push("/");
       }}

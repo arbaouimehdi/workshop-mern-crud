@@ -1,6 +1,6 @@
 import { gql } from "apollo-boost";
 
-const Me = gql`
+const ME = gql`
   query ME_QUERY {
     me {
       id
@@ -9,4 +9,4 @@ const Me = gql`
   }
 `;
 
-export default Me;
+export default ME;
