@@ -1,8 +1,16 @@
 type User {
   id: ID! @id
-  email: String @unique
-  name: String!
-  posts: [Post!]!
+  firstName: String!
+  lastName: String!
+  userName: String! @unique
+  email: String! @unique
+  password: String!
+  profilePic: String!
+    @default(
+      value: "http://www.gravatar.com/avatar/82d947be3a59555243ebca7c494eb2ca?s=181"
+    )
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type Post {

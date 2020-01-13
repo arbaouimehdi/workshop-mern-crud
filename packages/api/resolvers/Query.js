@@ -1,7 +1,4 @@
 const Query = {
-  publishedPosts(root, args, context) {
-    return context.prisma.posts({ where: { published: true } });
-  },
   post(root, args, context) {
     return context.prisma.post({ id: args.postId });
   },
