@@ -12,9 +12,9 @@ const HomePage = () => {
 
     return (
       <>
-        <h1>Frontend</h1>
-        {publishedPosts.map(post => {
-          return <div>{post.title}</div>
+        <h1>Admin</h1>
+        {publishedPosts.map((post, id) => {
+          return <div key={id}>{post.title}</div>
         })}
       </>
     )
