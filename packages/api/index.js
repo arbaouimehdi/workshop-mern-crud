@@ -32,7 +32,7 @@ const options = {
   playground: "/playground",
   cors: {
     credentials: true,
-    origin: "http://localhost:6555"
+    origin: ["http://localhost:6555", "http://localhost:3000"]
   }
 };
 

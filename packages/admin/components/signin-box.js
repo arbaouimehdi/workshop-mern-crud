@@ -5,8 +5,8 @@ import ME from "../queries/me";
 import SIGN_IN from "../mutations/sign_in";
 
 const SigninBox = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("arbaoui.mehdi86@gmail.com");
+  const [password, setPassword] = useState("mm123456");
 
   const [signin, { error, loading, data }] = useMutation(SIGN_IN, {
     onCompleted(data) {

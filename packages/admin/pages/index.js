@@ -6,10 +6,10 @@ import ME from "../queries/me";
 const NewHome = () => {
   const { loading, error, data } = useQuery(ME);
 
-  console.log(data);
-
   if (error) console.log("error message is: ", error.message);
   if (loading) return <p>loading</p>;
+
+  console.log(data);
 
   if (data === undefined || data.me === undefined || data.me === null) {
     return (
