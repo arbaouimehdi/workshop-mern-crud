@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/react-hooks";
 import SigninBox from "../components/signin-box";
-// import SignOutButton from "../components/SignOutButton"
+import SignOutButton from "../components/signout-button";
 import ME from "../queries/me";
 
 const NewHome = () => {
@@ -23,6 +23,7 @@ const NewHome = () => {
       <>
         <p>Hi, {data.me.firstName}</p>
         <p>process.env.NODE_ENV is {process.env.NODE_ENV}</p>
+        <SignOutButton />
       </>
     );
   }

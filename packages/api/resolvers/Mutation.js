@@ -63,6 +63,16 @@ const Mutation = {
       token,
       user
     };
+  },
+
+  /**
+   *
+   * Logout
+   *
+   */
+  logout(parent, args, context) {
+    context.response.clearCookie("token");
+    return { message: "Goodbye!" };
   }
 };
 

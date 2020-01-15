@@ -15,6 +15,7 @@ type Mutation {
     password: String!
   ): AuthPayload
   login(email: String!, password: String!): AuthPayload
+  logout: SuccessMessage
 }
 
 type User {
@@ -34,6 +35,10 @@ type Post {
   title: String!
   published: Boolean!
   author: User
+}
+
+type SuccessMessage {
+  message: String
 }
 
 type AuthPayload {
