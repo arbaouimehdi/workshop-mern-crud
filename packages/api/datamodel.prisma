@@ -11,11 +11,14 @@ type User {
     )
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
+
+  posts: [Post!]!
 }
 
 type Post {
   id: ID! @id
   title: String!
   published: Boolean! @default(value: false)
+
   author: User @relation(link: INLINE)
 }

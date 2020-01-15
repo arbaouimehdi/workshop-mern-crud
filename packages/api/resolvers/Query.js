@@ -13,18 +13,18 @@ const Query = {
   },
 
   //
-  publishedPosts(root, args, context) {
-    return context.prisma.posts({ where: { published: true } });
+  async publishedPosts(root, args, context) {
+    return await context.prisma.posts({ where: { published: true } });
   },
 
   //
-  post(root, args, context) {
-    return context.prisma.post({ id: args.postId });
+  async post(root, args, context) {
+    return await context.prisma.post({ id: args.postId });
   },
 
   //
-  postsByUser(root, args, context) {
-    return context.prisma
+  async postsByUser(root, args, context) {
+    return await context.prisma
       .user({
         id: args.userId
       })
