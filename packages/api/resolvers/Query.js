@@ -1,13 +1,13 @@
 const Query = {
   // Users List
-  users(root, args, context) {
-    const users = context.prisma.users();
+  async users(root, args, context) {
+    const users = await context.prisma.users();
     return users;
   },
 
   // Logged In User
-  me(root, args, context) {
-    const user = context.prisma.user({ id: context.request.user.id });
+  async me(root, args, context) {
+    const user = await context.prisma.user({ id: context.request.user.id });
     console.log("me says:", user);
     return user;
   },
