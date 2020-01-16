@@ -1,4 +1,5 @@
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
+import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 
 // Libraries
@@ -14,8 +15,19 @@ const ALL_POSTS = gql`
   }
 `;
 
+const DELETE_POST = gql`
+  mutation DELETE_POST($postId: ID!) {
+    removePost(postId: $postId) {
+      id
+    }
+  }
+`;
+
 const PostsList = () => {
   const { error, loading, data } = useQuery(ALL_POSTS);
+  const [removePost, { post }] = useMutation(DELETE_POST, {
+    refetchQueries: [{ query: ALL_POSTS }]
+  });
 
   if (error) console.log(error.message);
   if (loading) return <p>Loading</p>;
@@ -31,6 +43,13 @@ const PostsList = () => {
             <li>
               <b>Title: </b>
               {post.title}
+              <button
+                onClick={() => {
+                  removePost({ variables: { postId: post.id } });
+                }}
+              >
+                remove
+              </button>
             </li>
           </ul>
         );

@@ -39,8 +39,6 @@ const AddPost = () => {
   const [published, setPublished] = useState(false);
   const [userId, setUserId] = useState("");
 
-  console.log(userId);
-
   if (error) console.log(error.message);
   if (loading) return <p>Loading</p>;
 
@@ -80,8 +78,8 @@ const AddPost = () => {
               <input
                 type="radio"
                 name="answer"
-                value="true"
-                onChange={e => setPublished(e.target.value)}
+                value={"true"}
+                onChange={e => setPublished(JSON.parse(e.target.value))}
                 checked={
                   published == true || published == "true" ? true : false
                 }
@@ -92,8 +90,8 @@ const AddPost = () => {
               <input
                 type="radio"
                 name="answer"
-                value="false"
-                onChange={e => setPublished(e.target.value)}
+                value={"false"}
+                onChange={e => setPublished(JSON.parse(e.target.value))}
                 checked={
                   published == false || published == "false" ? true : false
                 }
@@ -104,9 +102,7 @@ const AddPost = () => {
           <br />
           <div>
             <select name="userID" onChange={e => setUserId(e.target.value)}>
-              <option value="" disabled selected>
-                select a user
-              </option>
+              <option defaultValue="">select a user</option>
               {usersList.users.map(user => (
                 <option key={user.id} value={user.id}>
                   {user.email}

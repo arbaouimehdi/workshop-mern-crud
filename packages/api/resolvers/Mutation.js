@@ -81,8 +81,6 @@ const Mutation = {
    *
    */
   addPost(parent, args, context) {
-    console.log(args.title.length < 5);
-
     if (args.title.length < 5) {
       throw new Error("Please add a Title");
     }
@@ -93,6 +91,19 @@ const Mutation = {
       author: {
         connect: { id: args.userId }
       }
+    });
+  },
+
+  /**
+   *
+   * Remove a Post
+   *
+   */
+  removePost(parent, args, context) {
+    console.log(args.postId);
+
+    return context.prisma.deletePost({
+      id: args.postId
     });
   }
 };
