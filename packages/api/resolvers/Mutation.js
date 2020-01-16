@@ -81,6 +81,12 @@ const Mutation = {
    *
    */
   addPost(parent, args, context) {
+    console.log(args.title.length < 5);
+
+    if (args.title.length < 5) {
+      throw new Error("Please add a Title");
+    }
+
     return context.prisma.createPost({
       title: args.title,
       published: args.published,
