@@ -1,5 +1,6 @@
 type Query {
   users: [User!]!
+  posts: [Post!]!
   me: User
   publishedPosts: [Post!]!
   post(postId: ID!): Post
@@ -16,6 +17,8 @@ type Mutation {
   ): AuthPayload
   login(email: String!, password: String!): AuthPayload
   logout: SuccessMessage
+
+  addPost(title: String!, published: Boolean!, userId: ID!): Post
 }
 
 type User {

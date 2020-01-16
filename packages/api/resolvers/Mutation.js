@@ -73,6 +73,21 @@ const Mutation = {
   logout(parent, args, context) {
     context.response.clearCookie("token");
     return { message: "Goodbye!" };
+  },
+
+  /**
+   *
+   * Add a New Post
+   *
+   */
+  addPost(parent, args, context) {
+    return context.prisma.createPost({
+      title: args.title,
+      published: args.published,
+      author: {
+        connect: { id: args.userId }
+      }
+    });
   }
 };
 

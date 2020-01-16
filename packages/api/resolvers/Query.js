@@ -12,6 +12,12 @@ const Query = {
     return user;
   },
 
+  // Posts List
+  async posts(root, args, context) {
+    const posts = await context.prisma.posts();
+    return posts;
+  },
+
   //
   async publishedPosts(root, args, context) {
     return await context.prisma.posts({ where: { published: true } });
