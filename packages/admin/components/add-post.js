@@ -6,6 +6,15 @@ import Router from "next/router";
 // Queries
 import ME from "../queries/me";
 
+const ALL_POSTS = gql`
+  query ALL_POSTS {
+    posts {
+      id
+      title
+    }
+  }
+`;
+
 const ADD_POST = gql`
   mutation ADD_POST($title: String!, $published: Boolean!, $userId: ID!) {
     addPost(title: $title, published: $published, userId: $userId) {
@@ -24,6 +33,7 @@ const AddPost = () => {
       onError={error => {
         console.log(error);
       }}
+      refetchQueries={[{ query: ALL_POSTS }]}
       onCompleted={() => {}}
     >
       {(signup, { data, loading, error }) => (
