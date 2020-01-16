@@ -4,8 +4,14 @@ import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import Router from "next/router";
 
-// Queries
-import ME from "../queries/me";
+const ALL_USERS = gql`
+  query ALL_USERS {
+    users {
+      id
+      email
+    }
+  }
+`;
 
 const ALL_POSTS = gql`
   query ALL_POSTS {
@@ -25,9 +31,18 @@ const ADD_POST = gql`
 `;
 
 const AddPost = () => {
-  const [title, setTitle] = useState("Oh my Gosh!");
+  // Queries
+  const { loading, error, data: usersList } = useQuery(ALL_USERS);
+
+  // States
+  const [title, setTitle] = useState("");
   const [published, setPublished] = useState(false);
-  const [userId, setUserId] = useState("5e1c8f5ebe07770007b58496");
+  const [userId, setUserId] = useState("");
+
+  console.log(userId);
+
+  if (error) console.log(error.message);
+  if (loading) return <p>Loading</p>;
 
   return (
     <Mutation
@@ -38,7 +53,7 @@ const AddPost = () => {
       refetchQueries={[{ query: ALL_POSTS }]}
       onCompleted={() => {}}
     >
-      {(signup, { data, loading, error, usersList }) => (
+      {(signup, { data, loading, error }) => (
         <form
           onSubmit={e => {
             e.preventDefault();
@@ -85,6 +100,19 @@ const AddPost = () => {
               />
               false
             </label>
+          </div>
+          <br />
+          <div>
+            <select name="userID" onChange={e => setUserId(e.target.value)}>
+              <option value="" disabled selected>
+                select a user
+              </option>
+              {usersList.users.map(user => (
+                <option key={user.id} value={user.id}>
+                  {user.email}
+                </option>
+              ))}
+            </select>
           </div>
           <br />
           <button
