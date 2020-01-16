@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Mutation } from "react-apollo";
+import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import Router from "next/router";
 
@@ -25,8 +26,9 @@ const ADD_POST = gql`
 
 const AddPost = () => {
   const [title, setTitle] = useState("Oh my Gosh!");
-  const [published, setPublished] = useState(true);
+  const [published, setPublished] = useState(false);
   const [userId, setUserId] = useState("5e1c8f5ebe07770007b58496");
+
   return (
     <Mutation
       mutation={ADD_POST}
@@ -36,7 +38,7 @@ const AddPost = () => {
       refetchQueries={[{ query: ALL_POSTS }]}
       onCompleted={() => {}}
     >
-      {(signup, { data, loading, error }) => (
+      {(signup, { data, loading, error, usersList }) => (
         <form
           onSubmit={e => {
             e.preventDefault();
@@ -56,23 +58,47 @@ const AddPost = () => {
             placeholder="Title"
             value={title}
             onChange={e => setTitle(e.target.value)}
+            style={{ padding: "5px", width: "200px", marginBottom: "10px" }}
           />
+          <div className="control">
+            <label className="radio">
+              <input
+                type="radio"
+                name="answer"
+                value="true"
+                onChange={e => setPublished(e.target.value)}
+                checked={
+                  published == true || published == "true" ? true : false
+                }
+              />
+              true
+            </label>
+            <label className="radio">
+              <input
+                type="radio"
+                name="answer"
+                value="false"
+                onChange={e => setPublished(e.target.value)}
+                checked={
+                  published == false || published == "false" ? true : false
+                }
+              />
+              false
+            </label>
+          </div>
           <br />
-          <input
-            name="published"
-            placeholder="true"
-            value={published}
-            onChange={e => setPublished(e.target.value)}
-          />
-          <br />
-          <input
-            name="userId"
-            placeholder="User ID"
-            value={userId}
-            onChange={e => setEmail(e.target.value)}
-          />
-          <br />
-          <button>{loading ? "Loading" : "Add Post"}</button>
+          <button
+            style={{
+              background: "#118420",
+              color: "#fff",
+              padding: "5px 10px",
+              borderRadius: "3px",
+              fontSize: "14px"
+            }}
+          >
+            {loading ? "Loading" : "Add Post"}
+          </button>
+          <hr />
         </form>
       )}
     </Mutation>

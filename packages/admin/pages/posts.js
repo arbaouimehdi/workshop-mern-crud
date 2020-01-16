@@ -24,6 +24,7 @@ const PostsList = () => {
     <IsAuth>
       <h1>Add a New Post</h1>
       <AddPost />
+      <h2>Posts List</h2>
       {data.posts.map(post => {
         return (
           <ul key={post.id}>
