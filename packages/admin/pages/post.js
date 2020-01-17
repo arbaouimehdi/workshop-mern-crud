@@ -65,7 +65,11 @@ const Post = ({ router }) => {
         <a>Posts List</a>
       </Link>
 
-      <Mutation mutation={UPDATE_POST} onError={error => console.log(error)}>
+      <Mutation
+        mutation={UPDATE_POST}
+        refetchQueries={[{ query: POST, variables: { postId: currentPostID } }]}
+        onError={error => console.log(error)}
+      >
         {(updatePost, { data, loading, error }) => {
           // States
           const [title, setTitle] = useState(currentPost.post.title);
