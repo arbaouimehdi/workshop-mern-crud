@@ -51,12 +51,12 @@ const AddPost = () => {
       refetchQueries={[{ query: ALL_POSTS }]}
       onCompleted={() => {}}
     >
-      {(signup, { data, loading, error }) => (
+      {(addPost, { data, loading, error }) => (
         <form
           onSubmit={e => {
             e.preventDefault();
             e.stopPropagation();
-            signup({
+            addPost({
               variables: {
                 title,
                 published,

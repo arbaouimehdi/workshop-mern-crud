@@ -19,6 +19,12 @@ type Mutation {
   logout: SuccessMessage
 
   addPost(title: String!, published: Boolean!, userId: ID!): Post
+  updatePost(
+    postId: ID!
+    title: String!
+    published: Boolean!
+    userId: ID!
+  ): Post
   removePost(postId: ID!): Post
 }
 

@@ -100,10 +100,28 @@ const Mutation = {
    *
    */
   removePost(parent, args, context) {
-    console.log(args.postId);
-
     return context.prisma.deletePost({
       id: args.postId
+    });
+  },
+
+  /**
+   *
+   * Remove a Post
+   *
+   */
+  updatePost(parent, args, context) {
+    console.log(args);
+
+    return context.prisma.updatePost({
+      where: { id: args.postId },
+      data: {
+        title: args.title,
+        published: args.published,
+        author: {
+          connect: { id: args.userId }
+        }
+      }
     });
   }
 };
