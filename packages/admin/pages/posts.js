@@ -1,6 +1,8 @@
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
+import Link from "next/link";
+import Router from "next/router";
 
 // Libraries
 import AddPost from "../components/add-post";
@@ -42,14 +44,18 @@ const PostsList = () => {
           <ul key={post.id}>
             <li>
               <b>Title: </b>
-              {post.title}
+              {post.title}&nbsp;&nbsp;
               <button
                 onClick={() => {
                   removePost({ variables: { postId: post.id } });
                 }}
               >
-                remove
+                x remove
               </button>
+              <br />
+              <Link href={`/post?slug=${post.id}`}>
+                <a>+ detail</a>
+              </Link>
             </li>
           </ul>
         );
