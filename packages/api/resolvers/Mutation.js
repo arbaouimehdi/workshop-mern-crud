@@ -77,6 +77,39 @@ const Mutation = {
 
   /**
    *
+   * Update User
+   *
+   */
+  async updateUserInfos(parent, args, context) {
+    console.log(args.password);
+
+    const password = await bcrypt.hash(args.password, 10);
+
+    const user = await context.prisma.updateUser({
+      where: { id: args.userId },
+      data: {
+        firstName: args.firstName,
+        lastName: args.lastName,
+        password: password
+      }
+    });
+
+    const token = jwt.sign({ userId: user.id }, APP_SECRET);
+
+    context.response.cookie("token", token, {
+      httpOnly: false,
+      secure: false,
+      maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year cookie
+    });
+
+    return {
+      token,
+      user
+    };
+  },
+
+  /**
+   *
    * Add a New Post
    *
    */
@@ -111,8 +144,6 @@ const Mutation = {
    *
    */
   updatePost(parent, args, context) {
-    console.log(args);
-
     return context.prisma.updatePost({
       where: { id: args.postId },
       data: {

@@ -17,6 +17,12 @@ type Mutation {
   ): AuthPayload
   login(email: String!, password: String!): AuthPayload
   logout: SuccessMessage
+  updateUserInfos(
+    userId: ID!
+    firstName: String!
+    lastName: String!
+    password: String!
+  ): AuthPayload
 
   addPost(title: String!, published: Boolean!, userId: ID!): Post
   updatePost(

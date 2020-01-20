@@ -5,6 +5,9 @@ const ME = gql`
     me {
       id
       firstName
+      lastName
+      userName
+      password
     }
   }
 `;

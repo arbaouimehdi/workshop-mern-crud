@@ -50,11 +50,11 @@ server.express.use(cookieParser());
 server.express.use((req, res, next) => {
   const { token } = req.cookies;
   if (token) {
-    console.log("token", token);
+    // console.log("token", token);
     const { userId } = jwt.verify(token, APP_SECRET);
     // put the userId onto the req for future requests to access
     req.userId = userId;
-    console.log("userId", userId);
+    // console.log("userId", userId);
   }
   next();
 });
@@ -67,7 +67,7 @@ server.express.use(async (req, res, next) => {
 
   const user = await prisma.user({ id: req.userId });
   req.user = user;
-  console.log("req.user", JSON.stringify(req.user));
+  // console.log("req.user", JSON.stringify(req.user));
 
   next();
 });

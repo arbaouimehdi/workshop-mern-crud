@@ -8,7 +8,7 @@ const Query = {
   // Logged In User
   async me(root, args, context) {
     const user = await context.prisma.user({ id: context.request.user.id });
-    console.log("me says:", user);
+    // console.log("me says:", user);
     return user;
   },
 
