@@ -3,7 +3,6 @@ import { Mutation } from "react-apollo";
 import { withRouter } from "next/router";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
-import Link from "next/link";
 
 const ALL_USERS = gql`
   query ALL_USERS {
@@ -61,10 +60,6 @@ const Post = ({ router }) => {
 
   return (
     <div>
-      <Link href="/posts">
-        <a>Posts List</a>
-      </Link>
-
       <Mutation
         mutation={UPDATE_POST}
         refetchQueries={[{ query: POST, variables: { postId: currentPostID } }]}
