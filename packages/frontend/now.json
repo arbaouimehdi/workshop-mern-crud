@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "with-apollo-auth",
+  "name": "mern-crud-frontend",
   "builds": [
     {
       "src": "package.json",

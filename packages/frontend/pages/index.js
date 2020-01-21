@@ -13,8 +13,8 @@ const HomePage = () => {
     return (
       <>
         <h1>Frontend</h1>
-        {publishedPosts.map(post => {
-          return <div>{post.title}</div>;
+        {publishedPosts.map((post, id) => {
+          return <div key={`post-${id}`}>{post.title}</div>;
         })}
       </>
     );

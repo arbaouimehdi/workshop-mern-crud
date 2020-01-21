@@ -4,7 +4,7 @@
 node_modules
 
 # we use yarn
-package-lock.json
+# package-lock.json
 
 # testing
 *.spec.js

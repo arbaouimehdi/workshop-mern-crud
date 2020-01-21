@@ -3,7 +3,7 @@ require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`
 });
 
-const { prisma } = require("./client");
+const { prisma } = require("./generated/prisma-client");
 const { GraphQLServer } = require("graphql-yoga");
 
 const cookieParser = require("cookie-parser");
@@ -17,6 +17,15 @@ const User = require("./resolvers/User");
 
 // Secret
 const { APP_SECRET } = process.env;
+
+// import schema stuff
+if (process.env.NODE_ENV !== "production") {
+  const { importSchema } = require("graphql-import");
+  const fs = require("fs");
+
+  const text = importSchema(__dirname + "/schema.graphql");
+  fs.writeFileSync("./schema_prep.graphql", text);
+}
 
 const resolvers = {
   Query,
@@ -32,12 +41,16 @@ const options = {
   playground: "/playground",
   cors: {
     credentials: true,
-    origin: ["http://localhost:6555", "http://localhost:3000"]
+    // origin: ["http://localhost:6555", "http://localhost:3000"],
+    origin:
+      process.env.NODE_ENV === "production"
+        ? process.env.PRODUCTION_FRONTEND_URL
+        : ["http://localhost:3000", "http://localhost:6555"]
   }
 };
 
 const server = new GraphQLServer({
-  typeDefs: "./schema.graphql",
+  typeDefs: __dirname + "/schema.graphql",
   resolvers,
   context: request => {
     return { ...request, prisma };
