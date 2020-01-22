@@ -17,7 +17,7 @@ function create(initialState, { fetchOptions }) {
     uri:
       process.env.NODE_ENV === "production"
         ? process.env.BACKEND_URI
-        : "http://localhost:7777/graphql",
+        : "http://localhost:7777",
     credentials: "include",
     fetchOptions
   });

@@ -36,12 +36,8 @@ const resolvers = {
 
 const options = {
   port: process.env.PORT,
-  endpoint: "/graphql",
-  subscriptions: "/subscriptions",
-  playground: "/playground",
   cors: {
     credentials: true,
-    // origin: ["http://localhost:6555", "http://localhost:3000"],
     origin:
       process.env.NODE_ENV === "production"
         ? process.env.PRODUCTION_FRONTEND_URL
