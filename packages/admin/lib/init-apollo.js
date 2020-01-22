@@ -14,7 +14,7 @@ function create(initialState, { fetchOptions }) {
   const httpLink = createHttpLink({
     uri:
       process.env.NODE_ENV === "production"
-        ? process.env.URI
+        ? process.env.API_URI
         : "http://localhost:7777",
     credentials: "include",
     fetchOptions
