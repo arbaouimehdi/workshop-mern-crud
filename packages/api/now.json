@@ -11,6 +11,7 @@
     "APP_SECRET": "@app_secret",
     "PRISMA_ENDPOINT": "https://mern-crud-a7cda21373.herokuapp.com/api/dev",
     "PRISMA_SECRET": "@prisma_secret",
-    "PRODUCTION_FRONTEND_URL": "https://mern-crud-frontend-oz100crcj.now.sh/"
+    "PRODUCTION_FRONTEND_URL": "https://mern-crud-frontend.now.sh/",
+    "PRODUCTION_ADMIN_URL": "https://mern-crud-admin.now.sh/"
   }
 }

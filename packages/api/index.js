@@ -5,6 +5,7 @@ require("dotenv").config({
 
 const { prisma } = require("./generated/prisma-client");
 const { GraphQLServer } = require("graphql-yoga");
+const cors = require("cors");
 
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
@@ -34,17 +35,6 @@ const resolvers = {
   Post
 };
 
-const options = {
-  port: process.env.PORT,
-  cors: {
-    credentials: true,
-    origin:
-      process.env.NODE_ENV === "production"
-        ? process.env.PRODUCTION_FRONTEND_URL
-        : ["http://localhost:3000", "http://localhost:6555"]
-  }
-};
-
 const server = new GraphQLServer({
   typeDefs: __dirname + "/schema.graphql",
   resolvers,
@@ -52,6 +42,18 @@ const server = new GraphQLServer({
     return { ...request, prisma };
   }
 });
+
+const corsOptions = {
+  origin:
+    process.env.NODE_ENV === "production"
+      ? [process.env.PRODUCTION_FRONTEND_URL, process.env.PRODUCTION_ADMIN_URL]
+      : ["http://localhost:3000", "http://localhost:6555"],
+  credentials: true
+};
+
+console.log(corsOptions);
+
+server.express.use(cors(corsOptions));
 
 server.express.use(cookieParser());
 
@@ -81,8 +83,19 @@ server.express.use(async (req, res, next) => {
   next();
 });
 
-server.start(options, ({ port }) =>
-  console.log(
-    `Server started, listening on port ${port} for incoming requests.`
-  )
+server.start(
+  {
+    port: process.env.PORT,
+    cors: {
+      credentials: true,
+      origin:
+        process.env.NODE_ENV === "production"
+          ? [
+              process.env.PRODUCTION_ADMIN_URL,
+              process.env.PRODUCTION_FRONTEND_URL
+            ]
+          : ["http://localhost:3000", "http://localhost:6555"]
+    }
+  },
+  () => console.log("Server is running on http://localhost:7777")
 );
