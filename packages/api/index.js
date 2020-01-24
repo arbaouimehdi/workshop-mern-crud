@@ -5,8 +5,6 @@ require("dotenv").config({
 
 const { prisma } = require("./generated/prisma-client");
 const { GraphQLServer } = require("graphql-yoga");
-const cors = require("cors");
-
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 
@@ -36,54 +34,42 @@ const resolvers = {
 };
 
 const server = new GraphQLServer({
-  typeDefs: __dirname + "/schema.graphql",
+  typeDefs: __dirname + "/schema_prep.graphql",
   resolvers,
   context: request => {
     return { ...request, prisma };
   }
 });
 
-const corsOptions = {
-  credentials: true,
-  origin:
-    process.env.NODE_ENV === "production"
-      ? [process.env.PRODUCTION_FRONTEND_URL, process.env.PRODUCTION_ADMIN_URL]
-      : ["http://localhost:3000", "http://localhost:6555"]
-};
+server.use(cookieParser());
 
-server.express.use(cors(corsOptions));
-
-server.express.use(cookieParser());
-
-// 2. decode the JWT so we can get the user Id on each request
-server.express.use((req, res, next) => {
+// Decode the JWT so we can get the user Id on each request
+server.use((req, res, next) => {
   const { token } = req.cookies;
   if (token) {
     const { userId } = jwt.verify(token, APP_SECRET);
-    // put the userId onto the req for future requests to access
     req.userId = userId;
-    // console.log("userId", userId);
   }
   next();
 });
 
-// 3. Create a middleware that populates the user on each request
-server.express.use(async (req, res, next) => {
-  // if they aren't logged in, skip this
+// Create a middleware that populates the user on each request
+server.use(async (req, res, next) => {
   if (!req.userId) return next();
-
   const user = await prisma.user({ id: req.userId });
   req.user = user;
-  // console.log("req.user", JSON.stringify(req.user));
-
   next();
 });
 
 server.start(
   {
     port: process.env.PORT,
+    endpoint: "/graphql",
+    subscriptions: "/subscriptions",
+    playground: "/playground",
     cors: {
-      ...corsOptions
+      credentials: true,
+      origin: new RegExp("/*/")
     }
   },
   () => console.log(`Server is running on http://localhost:${process.env.PORT}`)
